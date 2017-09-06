@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wap.controller.dao.BaseDatsMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.BaseDats">
+        <constructor>
+            <idArg column="Id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="LevelCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ShortName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="FullName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="FatherLevelCode" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="Specifications" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="Attribute" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+            <arg column="Remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, LevelCode, ShortName, FullName, FatherLevelCode, Specifications, Attribute, Remark
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByFatherLevelCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where LevelCode NOT LIKE '02%' AND FatherLevelCode = #{levelcode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByLikeLevelCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where LevelCode LIKE #{levelcode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByLevelCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where LevelCode = #{levelcode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByNotLikeLevelCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where LevelCode NOT LIKE '%.%.%.%' GROUP BY LevelCode
+    </select>
+    <select id="selectByS" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where ShortName LIKE #{str} AND LevelCode LIKE '%.%.%.%' order by id
+        -- limit 12
+    </select>
+    <select id="selectByF" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where FullName LIKE #{str} AND LevelCode LIKE '%.%.%.%' order by id
+        -- limit 12
+    </select>
+    <select id="selectBySp" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from basedats
+        where Specifications LIKE #{str} AND LevelCode LIKE '%.%.%.%' order by id
+        -- limit 12
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from basedats
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.wap.model.BaseDats">
+    insert into basedats (Id, LevelCode, ShortName, 
+      FullName, FatherLevelCode, Specifications, 
+      Attribute, Remark)
+    values (#{id,jdbcType=INTEGER}, #{levelcode,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, 
+      #{fullname,jdbcType=VARCHAR}, #{fatherlevelcode,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, 
+      #{attribute,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.wap.model.BaseDats">
+        insert into basedats
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="levelcode != null">
+                LevelCode,
+            </if>
+            <if test="shortname != null">
+                ShortName,
+            </if>
+            <if test="fullname != null">
+                FullName,
+            </if>
+            <if test="fatherlevelcode != null">
+                FatherLevelCode,
+            </if>
+            <if test="specifications != null">
+                Specifications,
+            </if>
+            <if test="attribute != null">
+                Attribute,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="levelcode != null">
+                #{levelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="shortname != null">
+                #{shortname,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname != null">
+                #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="fatherlevelcode != null">
+                #{fatherlevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="specifications != null">
+                #{specifications,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute != null">
+                #{attribute,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.BaseDats">
+        update basedats
+        <set>
+            <if test="levelcode != null">
+                LevelCode = #{levelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="shortname != null">
+                ShortName = #{shortname,jdbcType=VARCHAR},
+            </if>
+            <if test="fullname != null">
+                FullName = #{fullname,jdbcType=VARCHAR},
+            </if>
+            <if test="fatherlevelcode != null">
+                FatherLevelCode = #{fatherlevelcode,jdbcType=VARCHAR},
+            </if>
+            <if test="specifications != null">
+                Specifications = #{specifications,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute != null">
+                Attribute = #{attribute,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.BaseDats">
+    update basedats
+    set LevelCode = #{levelcode,jdbcType=VARCHAR},
+      ShortName = #{shortname,jdbcType=VARCHAR},
+      FullName = #{fullname,jdbcType=VARCHAR},
+      FatherLevelCode = #{fatherlevelcode,jdbcType=VARCHAR},
+      Specifications = #{specifications,jdbcType=VARCHAR},
+      Attribute = #{attribute,jdbcType=TINYINT},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

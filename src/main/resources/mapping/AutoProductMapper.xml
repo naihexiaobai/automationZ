@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wap.controller.dao.AutoProductMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.AutoProduct">
+        <constructor>
+            <idArg column="Id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="Name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="Specifications" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CreateTime" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="UpdateTime" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="Agent" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CreateUser" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="Remark" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CreateUserId" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="Status" javaType="java.lang.Byte" jdbcType="TINYINT"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, Name, Specifications, CreateTime, UpdateTime, Agent, CreateUser, Remark, CreateUserId,
+    Status
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from autoproduct
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByAp" parameterType="com.wap.model.AutoProductSelectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from autoproduct
+        where 1=1
+        <if test="remark != null">
+            AND Remark =#{remark}
+        </if>
+        <if test="name != null">
+            AND Name =#{name}
+        </if>
+        <if test="agent != null">
+            AND Agent =#{agent}
+        </if>
+        <if test="createuser != null">
+            AND CreateUser =#{createuser}
+        </if>
+        <if test="createtime != null">
+            AND CreateTime LIKE #{createtime}
+        </if>
+        <if test="status != null">
+            AND Status = #{status}
+        </if>
+        ORDER BY Id DESC limit #{startLimit}, #{endLimit}
+    </select>
+    <select id="selectByApCount" parameterType="com.wap.model.AutoProductSelectPage" resultType="java.lang.Integer">
+        select
+        COUNT(Id)
+        from autoproduct
+        where 1=1
+        <if test="name != null">
+            AND Name =#{name}
+        </if>
+        <if test="agent != null">
+            AND Agent =#{agent}
+        </if>
+        <if test="createuser != null">
+            AND CreateUser =#{createuser}
+        </if>
+        <if test="createtime != null">
+            AND CreateTime LIKE #{createtime}
+        </if>
+        <if test="status != null">
+            AND Status = #{status}
+        </if>
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from autoproduct
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.wap.model.AutoProduct">
+    insert into autoproduct (Id, Name, Specifications,
+      CreateTime, UpdateTime, Agent,
+      CreateUser, Remark, CreateUserId,
+      Status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR},
+      #{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR},
+      #{createuser,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createuserid,jdbcType=INTEGER},
+      #{status,jdbcType=TINYINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.wap.model.AutoProduct">
+        insert into autoproduct
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="name != null">
+                Name,
+            </if>
+            <if test="specifications != null">
+                Specifications,
+            </if>
+            <if test="createtime != null">
+                CreateTime,
+            </if>
+            <if test="updatetime != null">
+                UpdateTime,
+            </if>
+            <if test="agent != null">
+                Agent,
+            </if>
+            <if test="createuser != null">
+                CreateUser,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="createuserid != null">
+                CreateUserId,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="specifications != null">
+                #{specifications,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null">
+                #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuserid != null">
+                #{createuserid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.AutoProduct">
+        update autoproduct
+        <set>
+            <if test="name != null">
+                Name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="specifications != null">
+                Specifications = #{specifications,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                CreateTime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                UpdateTime = #{updatetime,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                Agent = #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="createuser != null">
+                CreateUser = #{createuser,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createuserid != null">
+                CreateUserId = #{createuserid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.AutoProduct">
+    update autoproduct
+    set Name = #{name,jdbcType=VARCHAR},
+      Specifications = #{specifications,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=VARCHAR},
+      UpdateTime = #{updatetime,jdbcType=VARCHAR},
+      Agent = #{agent,jdbcType=VARCHAR},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      CreateUserId = #{createuserid,jdbcType=INTEGER},
+      Status = #{status,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

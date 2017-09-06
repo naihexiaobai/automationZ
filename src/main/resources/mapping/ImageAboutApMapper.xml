@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wap.controller.dao.ImageAboutApMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.ImageAboutAp">
+        <constructor>
+            <idArg column="Id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="Ap_id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="Img_Up" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Down" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Left" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Right" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Front" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Behind" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Electrics" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_machine" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Img_Other" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, Ap_id, Img_Up, Img_Down, Img_Left, Img_Right, Img_Front, Img_Behind, Img_Electrics, 
+    Img_machine, Img_Other, Remark
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from imageaboutap
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByApid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from imageaboutap
+        where Ap_id = #{apid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from imageaboutap
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.wap.model.ImageAboutAp">
+    insert into imageaboutap (Id, Ap_id, Img_Up, 
+      Img_Down, Img_Left, Img_Right, 
+      Img_Front, Img_Behind, Img_Electrics, 
+      Img_machine, Img_Other, Remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{apId,jdbcType=INTEGER}, #{imgUp,jdbcType=VARCHAR}, 
+      #{imgDown,jdbcType=VARCHAR}, #{imgLeft,jdbcType=VARCHAR}, #{imgRight,jdbcType=VARCHAR}, 
+      #{imgFront,jdbcType=VARCHAR}, #{imgBehind,jdbcType=VARCHAR}, #{imgElectrics,jdbcType=VARCHAR}, 
+      #{imgMachine,jdbcType=VARCHAR}, #{imgOther,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.wap.model.ImageAboutAp">
+        insert into imageaboutap
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="apId != null">
+                Ap_id,
+            </if>
+            <if test="imgUp != null">
+                Img_Up,
+            </if>
+            <if test="imgDown != null">
+                Img_Down,
+            </if>
+            <if test="imgLeft != null">
+                Img_Left,
+            </if>
+            <if test="imgRight != null">
+                Img_Right,
+            </if>
+            <if test="imgFront != null">
+                Img_Front,
+            </if>
+            <if test="imgBehind != null">
+                Img_Behind,
+            </if>
+            <if test="imgElectrics != null">
+                Img_Electrics,
+            </if>
+            <if test="imgMachine != null">
+                Img_machine,
+            </if>
+            <if test="imgOther != null">
+                Img_Other,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="apId != null">
+                #{apId,jdbcType=INTEGER},
+            </if>
+            <if test="imgUp != null">
+                #{imgUp,jdbcType=VARCHAR},
+            </if>
+            <if test="imgDown != null">
+                #{imgDown,jdbcType=VARCHAR},
+            </if>
+            <if test="imgLeft != null">
+                #{imgLeft,jdbcType=VARCHAR},
+            </if>
+            <if test="imgRight != null">
+                #{imgRight,jdbcType=VARCHAR},
+            </if>
+            <if test="imgFront != null">
+                #{imgFront,jdbcType=VARCHAR},
+            </if>
+            <if test="imgBehind != null">
+                #{imgBehind,jdbcType=VARCHAR},
+            </if>
+            <if test="imgElectrics != null">
+                #{imgElectrics,jdbcType=VARCHAR},
+            </if>
+            <if test="imgMachine != null">
+                #{imgMachine,jdbcType=VARCHAR},
+            </if>
+            <if test="imgOther != null">
+                #{imgOther,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.ImageAboutAp">
+        update imageaboutap
+        <set>
+            <if test="apId != null">
+                Ap_id = #{apId,jdbcType=INTEGER},
+            </if>
+            <if test="imgUp != null">
+                Img_Up = #{imgUp,jdbcType=VARCHAR},
+            </if>
+            <if test="imgDown != null">
+                Img_Down = #{imgDown,jdbcType=VARCHAR},
+            </if>
+            <if test="imgLeft != null">
+                Img_Left = #{imgLeft,jdbcType=VARCHAR},
+            </if>
+            <if test="imgRight != null">
+                Img_Right = #{imgRight,jdbcType=VARCHAR},
+            </if>
+            <if test="imgFront != null">
+                Img_Front = #{imgFront,jdbcType=VARCHAR},
+            </if>
+            <if test="imgBehind != null">
+                Img_Behind = #{imgBehind,jdbcType=VARCHAR},
+            </if>
+            <if test="imgElectrics != null">
+                Img_Electrics = #{imgElectrics,jdbcType=VARCHAR},
+            </if>
+            <if test="imgMachine != null">
+                Img_machine = #{imgMachine,jdbcType=VARCHAR},
+            </if>
+            <if test="imgOther != null">
+                Img_Other = #{imgOther,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByApidSelective" parameterType="com.wap.model.ImageAboutAp">
+        update imageaboutap
+        <set>
+            <if test="id != null">
+                Id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="imgUp != null">
+                Img_Up = #{imgUp,jdbcType=VARCHAR},
+            </if>
+            <if test="imgDown != null">
+                Img_Down = #{imgDown,jdbcType=VARCHAR},
+            </if>
+            <if test="imgLeft != null">
+                Img_Left = #{imgLeft,jdbcType=VARCHAR},
+            </if>
+            <if test="imgRight != null">
+                Img_Right = #{imgRight,jdbcType=VARCHAR},
+            </if>
+            <if test="imgFront != null">
+                Img_Front = #{imgFront,jdbcType=VARCHAR},
+            </if>
+            <if test="imgBehind != null">
+                Img_Behind = #{imgBehind,jdbcType=VARCHAR},
+            </if>
+            <if test="imgElectrics != null">
+                Img_Electrics = #{imgElectrics,jdbcType=VARCHAR},
+            </if>
+            <if test="imgMachine != null">
+                Img_machine = #{imgMachine,jdbcType=VARCHAR},
+            </if>
+            <if test="imgOther != null">
+                Img_Other = #{imgOther,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where
+        Ap_id = #{apId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.ImageAboutAp">
+    update imageaboutap
+    set Ap_id = #{apId,jdbcType=INTEGER},
+      Img_Up = #{imgUp,jdbcType=VARCHAR},
+      Img_Down = #{imgDown,jdbcType=VARCHAR},
+      Img_Left = #{imgLeft,jdbcType=VARCHAR},
+      Img_Right = #{imgRight,jdbcType=VARCHAR},
+      Img_Front = #{imgFront,jdbcType=VARCHAR},
+      Img_Behind = #{imgBehind,jdbcType=VARCHAR},
+      Img_Electrics = #{imgElectrics,jdbcType=VARCHAR},
+      Img_machine = #{imgMachine,jdbcType=VARCHAR},
+      Img_Other = #{imgOther,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

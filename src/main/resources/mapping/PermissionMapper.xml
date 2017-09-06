@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wap.controller.dao.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.Permission">
+        <constructor>
+            <idArg column="Id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="MenuListCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="MenuId" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="PositionCode" jdbcType="TINYINT" javaType="java.lang.Byte"/>
+            <arg column="Remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, MenuListCode, MenuId, PositionCode, Remark
+  </sql>
+    <select id="selectByPositionCode" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+        where PositionCode = #{positioncode,jdbcType=TINYINT}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from permission
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <delete id="deleteByPositionCode" parameterType="java.lang.Integer">
+        delete from permission
+        where PositionCode = #{positioncode,jdbcType=TINYINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.wap.model.Permission">
+    insert into permission (Id, MenuListCode, MenuId, 
+      PositionCode, Remark)
+    values (#{id,jdbcType=INTEGER}, #{menulistcode,jdbcType=VARCHAR}, #{menuid,jdbcType=INTEGER}, 
+      #{positioncode,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into permission (MenuListCode,MenuId,PositionCode,Remark)
+        values
+        <foreach collection="list" item="ppp" index="index" separator=",">
+            ( #{ppp.menulistcode,jdbcType=VARCHAR}, #{ppp.menuid,jdbcType=INTEGER},
+            #{ppp.positioncode,jdbcType=TINYINT}, #{ppp.remark,jdbcType=VARCHAR})
+        </foreach>
+
+    </insert>
+
+
+    <insert id="insertSelective" parameterType="com.wap.model.Permission">
+        insert into permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="menulistcode != null">
+                MenuListCode,
+            </if>
+            <if test="menuid != null">
+                MenuId,
+            </if>
+            <if test="positioncode != null">
+                PositionCode,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="menulistcode != null">
+                #{menulistcode,jdbcType=VARCHAR},
+            </if>
+            <if test="menuid != null">
+                #{menuid,jdbcType=INTEGER},
+            </if>
+            <if test="positioncode != null">
+                #{positioncode,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.Permission">
+        update permission
+        <set>
+            <if test="menulistcode != null">
+                MenuListCode = #{menulistcode,jdbcType=VARCHAR},
+            </if>
+            <if test="menuid != null">
+                MenuId = #{menuid,jdbcType=INTEGER},
+            </if>
+            <if test="positioncode != null">
+                PositionCode = #{positioncode,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.Permission">
+    update permission
+    set MenuListCode = #{menulistcode,jdbcType=VARCHAR},
+      MenuId = #{menuid,jdbcType=INTEGER},
+      PositionCode = #{positioncode,jdbcType=TINYINT},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

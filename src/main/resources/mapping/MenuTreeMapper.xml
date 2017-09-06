@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wap.controller.dao.MenuTreeMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.MenuTree">
+        <constructor>
+            <idArg column="Id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="Name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Url" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="ListFatherCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="ListCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Status" jdbcType="TINYINT" javaType="java.lang.Byte"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, Name, Url, ListFatherCode, ListCode, Remark, Status
+  </sql>
+    <select id="selectAll" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menutree WHERE Status =1
+        order by id
+    </select>
+
+    <select id="selectGruopByLC" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from menutree where ListCode not like #{listcode} GROUP BY ListCode
+    </select>
+    <select id="selectByLFC" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from menutree where ListFatherCode = #{listfathercode}  ORDER  by  Id DESC
+    </select>
+    <select id="selectAllStatusCount"
+            resultType="java.lang.Integer">
+        select COUNT(Id)
+        from menutree
+        order by id
+    </select>
+
+    <select id="selectAllStatusByPage" parameterType="com.wap.util.PagerUtil"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menutree limit #{startsize}, #{endsize}
+    </select>
+    <select id="selectMenuByListCode" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menutree WHERE Status =1
+        and ListCode like #{listcode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectMenuInId" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from menutree WHERE Status =1
+        and Id IN (#{ids})
+    </select>
+
+    <select id="selectByIdUpdateStatus"     statementType="CALLABLE" parameterType="com.wap.model.MenuTree">
+        {
+        CALL sp_updateMenuTree_status(#{id,jdbcType=INTEGER},#{status,jdbcType=TINYINT})
+        }
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from menutree
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menutree
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.wap.model.MenuTree">
+    insert into menutree (Id, Name, Url, 
+      ListFatherCode, ListCode, Remark, 
+      Status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{listfathercode,jdbcType=VARCHAR}, #{listcode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.wap.model.MenuTree">
+        insert into menutree
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="name != null">
+                Name,
+            </if>
+            <if test="url != null">
+                Url,
+            </if>
+            <if test="listfathercode != null">
+                ListFatherCode,
+            </if>
+            <if test="listcode != null">
+                ListCode,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="listfathercode != null">
+                #{listfathercode,jdbcType=VARCHAR},
+            </if>
+            <if test="listcode != null">
+                #{listcode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.MenuTree">
+        update menutree
+        <set>
+            <if test="name != null">
+                Name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                Url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="listfathercode != null">
+                ListFatherCode = #{listfathercode,jdbcType=VARCHAR},
+            </if>
+            <if test="listcode != null">
+                ListCode = #{listcode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.MenuTree">
+    update menutree
+    set Name = #{name,jdbcType=VARCHAR},
+      Url = #{url,jdbcType=VARCHAR},
+      ListFatherCode = #{listfathercode,jdbcType=VARCHAR},
+      ListCode = #{listcode,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

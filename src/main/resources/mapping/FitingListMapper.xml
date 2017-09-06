@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wap.controller.dao.FitingListMapper" >
+  <resultMap id="BaseResultMap" type="com.wap.model.FitingList" >
+    <constructor >
+      <idArg column="Id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="BasedatsId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Numbers" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="CreateUser" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CreateTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="Status" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="AutoProductId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="BDname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BDSpecifications" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="Remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, BasedatsId, Numbers, CreateUser, CreateTime, Status, AutoProductId, BDname, BDSpecifications, 
+    Remark
+  </sql>
+
+  <select id="selectByAPId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from fitinglist
+    where AutoProductId = #{apid}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from fitinglist
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fitinglist
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wap.model.FitingList" >
+    insert into fitinglist (Id, BasedatsId, Numbers, 
+      CreateUser, CreateTime, Status, 
+      AutoProductId, BDname, BDSpecifications, 
+      Remark)
+    values (#{id,jdbcType=INTEGER}, #{basedatsid,jdbcType=INTEGER}, #{numbers,jdbcType=INTEGER}, 
+      #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{autoproductid,jdbcType=INTEGER}, #{bdname,jdbcType=VARCHAR}, #{bdspecifications,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wap.model.FitingList" >
+    insert into fitinglist
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="basedatsid != null" >
+        BasedatsId,
+      </if>
+      <if test="numbers != null" >
+        Numbers,
+      </if>
+      <if test="createuser != null" >
+        CreateUser,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="autoproductid != null" >
+        AutoProductId,
+      </if>
+      <if test="bdname != null" >
+        BDname,
+      </if>
+      <if test="bdspecifications != null" >
+        BDSpecifications,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="basedatsid != null" >
+        #{basedatsid,jdbcType=INTEGER},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="autoproductid != null" >
+        #{autoproductid,jdbcType=INTEGER},
+      </if>
+      <if test="bdname != null" >
+        #{bdname,jdbcType=VARCHAR},
+      </if>
+      <if test="bdspecifications != null" >
+        #{bdspecifications,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.FitingList" >
+    update fitinglist
+    <set >
+      <if test="basedatsid != null" >
+        BasedatsId = #{basedatsid,jdbcType=INTEGER},
+      </if>
+      <if test="numbers != null" >
+        Numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="createuser != null" >
+        CreateUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="autoproductid != null" >
+        AutoProductId = #{autoproductid,jdbcType=INTEGER},
+      </if>
+      <if test="bdname != null" >
+        BDname = #{bdname,jdbcType=VARCHAR},
+      </if>
+      <if test="bdspecifications != null" >
+        BDSpecifications = #{bdspecifications,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wap.model.FitingList" >
+    update fitinglist
+    set BasedatsId = #{basedatsid,jdbcType=INTEGER},
+      Numbers = #{numbers,jdbcType=INTEGER},
+      CreateUser = #{createuser,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=TINYINT},
+      AutoProductId = #{autoproductid,jdbcType=INTEGER},
+      BDname = #{bdname,jdbcType=VARCHAR},
+      BDSpecifications = #{bdspecifications,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

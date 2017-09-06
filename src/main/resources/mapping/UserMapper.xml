@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wap.controller.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.User">
+        <constructor>
+            <idArg column="Id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="Phone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Department" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="JobNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Position" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PositionCode" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="UserName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UserPassword" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CreateTime" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="LeaveTime" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Status" jdbcType="TINYINT" javaType="java.lang.Byte"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, Phone, Name, Department, JobNumber, Position, PositionCode, UserName, UserPassword, 
+    CreateTime, LeaveTime, Remark, Status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPage" resultMap="BaseResultMap" parameterType="com.wap.util.PagerUtil">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        ORDER BY id DESC limit #{startsize}, #{endsize}
+    </select>
+    <select id="selectByUser" resultMap="BaseResultMap" parameterType="com.wap.model.User">
+        select
+        <include refid="Base_Column_List"/>
+        from user WHERE 1=1 AND Status=0
+        <if test="id != null">
+            AND Id = #{id}
+        </if>
+        <if test="name != null">
+            AND Name = #{name}
+        </if>
+        <if test="jobnumber != null">
+            AND JobNumber = #{jobnumber}
+        </if>
+        <if test="username != null">
+            AND UserName = #{username}
+        </if>
+        ORDER BY id DESC
+    </select>
+    <select id="selectCountId" resultType="java.lang.Integer">
+    select COUNT(Id) from user
+  </select>
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where UserName = #{username,jdbcType=VARCHAR}
+    </select>
+    <select id="selectGroupByPositionCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where Status =0 GROUP BY PositionCode
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.wap.model.User">
+    insert into user (Id, Phone, Name, 
+      Department, JobNumber, Position, 
+      PositionCode, UserName, UserPassword, 
+      CreateTime, LeaveTime, Remark, 
+      Status)
+    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{jobnumber,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{positioncode,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpassword,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR}, #{leavetime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.wap.model.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="phone != null">
+                Phone,
+            </if>
+            <if test="name != null">
+                Name,
+            </if>
+            <if test="department != null">
+                Department,
+            </if>
+            <if test="jobnumber != null">
+                JobNumber,
+            </if>
+            <if test="position != null">
+                Position,
+            </if>
+            <if test="positioncode != null">
+                PositionCode,
+            </if>
+            <if test="username != null">
+                UserName,
+            </if>
+            <if test="userpassword != null">
+                UserPassword,
+            </if>
+            <if test="createtime != null">
+                CreateTime,
+            </if>
+            <if test="leavetime != null">
+                LeaveTime,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="department != null">
+                #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="jobnumber != null">
+                #{jobnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="positioncode != null">
+                #{positioncode,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="leavetime != null">
+                #{leavetime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.User">
+        update user
+        <set>
+            <if test="phone != null">
+                Phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                Name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="department != null">
+                Department = #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="jobnumber != null">
+                JobNumber = #{jobnumber,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                Position = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="positioncode != null">
+                PositionCode = #{positioncode,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                UserName = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                UserPassword = #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                CreateTime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="leavetime != null">
+                LeaveTime = #{leavetime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.User">
+    update user
+    set Phone = #{phone,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      Department = #{department,jdbcType=VARCHAR},
+      JobNumber = #{jobnumber,jdbcType=VARCHAR},
+      Position = #{position,jdbcType=VARCHAR},
+      PositionCode = #{positioncode,jdbcType=INTEGER},
+      UserName = #{username,jdbcType=VARCHAR},
+      UserPassword = #{userpassword,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=VARCHAR},
+      LeaveTime = #{leavetime,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=TINYINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wap.controller.dao.PositionMapper">
+    <resultMap id="BaseResultMap" type="com.wap.model.Position">
+        <constructor>
+            <idArg column="Id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="Position" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PositionCode" jdbcType="TINYINT" javaType="java.lang.Byte"/>
+            <arg column="Status" jdbcType="TINYINT" javaType="java.lang.Byte"/>
+            <arg column="CreateTime" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="Remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, Position, PositionCode, Status, CreateTime, Remark
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from position
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectGetAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from position
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from position
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByPositionCode" parameterType="java.lang.Integer">
+    delete from position
+    where PositionCode = #{positioncode,jdbcType=TINYINT}
+  </delete>
+    <insert id="insert" parameterType="com.wap.model.Position">
+    insert into position (Id, Position, PositionCode, 
+      Status, CreateTime, Remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{positioncode,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{createtime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.wap.model.Position">
+        insert into position
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="position != null">
+                Position,
+            </if>
+            <if test="positioncode != null">
+                PositionCode,
+            </if>
+            <if test="status != null">
+                Status,
+            </if>
+            <if test="createtime != null">
+                CreateTime,
+            </if>
+            <if test="remark != null">
+                Remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="positioncode != null">
+                #{positioncode,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.wap.model.Position">
+        update position
+        <set>
+            <if test="position != null">
+                Position = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="positioncode != null">
+                PositionCode = #{positioncode,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                Status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                CreateTime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                Remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPositionCodeSelective" parameterType="com.wap.model.Position">
+        update position
+        <set>
+            <if test="status != null">
+                Status = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where PositionCode = #{positioncode,jdbcType=TINYINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.wap.model.Position">
+    update position
+    set Position = #{position,jdbcType=VARCHAR},
+      PositionCode = #{positioncode,jdbcType=TINYINT},
+      Status = #{status,jdbcType=TINYINT},
+      CreateTime = #{createtime,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
